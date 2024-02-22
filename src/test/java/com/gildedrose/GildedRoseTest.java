@@ -21,15 +21,15 @@ class GildedRoseTest {
         @Test
         @DisplayName("Update Normal Item Quality Before Sell-by Date")
         void testUpdateNormalItemQualityBeforeSellBy() {
-            gildedRose.updateQuality();
+            gildedRose.updateItem();
             assertEquals(19, normalItem.quality);
         }
 
         @Test
         @DisplayName("Update Normal Item Quality After Sell-by Date")
         void testUpdateNormalItemQualityAfterSellBy() {
-            normalItem.sellIn = 0; // Past sell-by date
-            gildedRose.updateQuality();
+            normalItem.sellIn = 0;
+            gildedRose.updateItem();
             assertEquals(18, normalItem.quality);
         }
 
@@ -37,7 +37,7 @@ class GildedRoseTest {
         @DisplayName("Update Normal Item Quality At Zero Quality")
         void testUpdateNormalItemQualityAtZeroQuality() {
             normalItem.quality = 0;
-            gildedRose.updateQuality();
+            gildedRose.updateItem();
             assertEquals(0, normalItem.quality);
         }
     }
@@ -57,7 +57,7 @@ class GildedRoseTest {
         @Test
         @DisplayName("Update Aged Brie Quality Before Sell-by Date")
         void testUpdateAgedBrieQualityBeforeSellBy() {
-            gildedRose.updateQuality();
+            gildedRose.updateItem();
             assertEquals(11, agedBrie.quality);
         }
 
@@ -65,7 +65,7 @@ class GildedRoseTest {
         @DisplayName("Update Aged Brie Quality After Sell-by Date")
         void testUpdateAgedBrieQualityAfterSellBy() {
             agedBrie.sellIn = 0; // Past sell-by date
-            gildedRose.updateQuality();
+            gildedRose.updateItem();
             assertEquals(12, agedBrie.quality);
         }
 
@@ -73,7 +73,7 @@ class GildedRoseTest {
         @DisplayName("Update Aged Brie Quality At Maximum Quality")
         void testUpdateAgedBrieQualityAtMaxQuality() {
             agedBrie.quality = 50; // Maximum quality
-            gildedRose.updateQuality();
+            gildedRose.updateItem();
             assertEquals(50, agedBrie.quality);
         }
     }
@@ -92,7 +92,7 @@ class GildedRoseTest {
         @Test
         @DisplayName("Update Backstage Passes Quality Before Sell-By Date")
         void testUpdateBackstagePassesQualityBeforeSellBy() {
-            gildedRose.updateQuality();
+            gildedRose.updateItem();
             assertEquals(21, backstagePasses.quality);
         }
 
@@ -100,7 +100,7 @@ class GildedRoseTest {
         @DisplayName("Update Backstage Passes Quality When 10 Days or Less Before Concert")
         void testUpdateBackstagePassesQualityTenDaysBeforeConcert() {
             backstagePasses.sellIn = 10;
-            gildedRose.updateQuality();
+            gildedRose.updateItem();
             assertEquals(22, backstagePasses.quality);
         }
 
@@ -108,7 +108,7 @@ class GildedRoseTest {
         @DisplayName("Update Backstage Passes Quality When 5 Days or Less Before Concert")
         void testUpdateBackstagePassesQualityFiveDaysBeforeConcert() {
             backstagePasses.sellIn = 5;
-            gildedRose.updateQuality();
+            gildedRose.updateItem();
             assertEquals(23, backstagePasses.quality);
         }
 
@@ -116,7 +116,7 @@ class GildedRoseTest {
         @DisplayName("Update Backstage Passes Quality After Concert")
         void testUpdateBackstagePassesQualityAfterConcert() {
             backstagePasses.sellIn = 0; // Past sell-by date
-            gildedRose.updateQuality();
+            gildedRose.updateItem();
             assertEquals(0, backstagePasses.quality);
         }
 
@@ -124,7 +124,7 @@ class GildedRoseTest {
         @DisplayName("Update Backstage Passes Quality At Maximum Quality")
         void testUpdateBackstagePassesQualityAtMaxQuality() {
             backstagePasses.quality = 50; // Maximum quality
-            gildedRose.updateQuality();
+            gildedRose.updateItem();
             assertEquals(50, backstagePasses.quality);
         }
     }
@@ -143,25 +143,67 @@ class GildedRoseTest {
         @Test
         @DisplayName("Update Sulfuras Quality Before Sell-By Date")
         void testUpdateSulfurasQualityBeforeSellBy() {
-            gildedRose.updateQuality();
+            gildedRose.updateItem();
             assertEquals(80, sulfuras.quality);
         }
 
         @Test
         @DisplayName("Update Sulfuras Quality After Sell-By Date")
         void testUpdateSulfurasQualityAfterSellBy() {
-            sulfuras.sellIn = -1; // Past sell-by date
-            gildedRose.updateQuality();
+            sulfuras.sellIn = -1;
+            gildedRose.updateItem();
             assertEquals(80, sulfuras.quality);
         }
 
         @Test
         @DisplayName("Update Sulfuras Quality At Maximum Quality")
         void testUpdateSulfurasQualityAtMaxQuality() {
-            sulfuras.quality = 80; // Maximum quality
-            gildedRose.updateQuality();
+            sulfuras.quality = 80;
+            gildedRose.updateItem();
             assertEquals(80, sulfuras.quality);
         }
     }
 
+    @Nested
+    @DisplayName("Conjured Item Tests")
+    class ConjuredItemTests {
+        private Item conjuredItem;
+
+        @BeforeEach
+        void setUp() {
+            conjuredItem = new Item("Conjured", 5, 10);
+            gildedRose = new GildedRose(new Item[]{conjuredItem});
+        }
+
+        @Test
+        @DisplayName("Update Conjured Item Quality Before Sell-By Date")
+        void testUpdateConjuredItemQualityBeforeSellBy() {
+            gildedRose.updateItem();
+            assertEquals(8, conjuredItem.quality);
+        }
+
+        @Test
+        @DisplayName("Update Conjured Item Quality After Sell-By Date")
+        void testUpdateConjuredItemQualityAfterSellBy() {
+            conjuredItem.sellIn = 0;
+            gildedRose.updateItem();
+            assertEquals(6, conjuredItem.quality);
+        }
+
+        @Test
+        @DisplayName("Update Conjured Item Quality At Minimum Quality")
+        void testUpdateConjuredItemQualityAtMinQuality() {
+            conjuredItem.quality = 0;
+            gildedRose.updateItem();
+            assertEquals(0, conjuredItem.quality);
+        }
+
+        @Test
+        @DisplayName("Update Conjured Item Quality At Maximum Quality")
+        void testUpdateConjuredItemQualityAtMaxQuality() {
+            conjuredItem.quality = 50;
+            gildedRose.updateItem();
+            assertEquals(48, conjuredItem.quality);
+        }
+    }
 }

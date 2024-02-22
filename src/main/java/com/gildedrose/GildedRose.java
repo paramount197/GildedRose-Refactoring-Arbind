@@ -10,16 +10,17 @@ public class GildedRose {
         this.items = items;
     }
 
-    public void updateQuality() {
+    public void updateItem() {
         for (Item item : items) {
-            if (isNormalItem(item)) {
-                updateNormalItemQuality(item);
-            } else if (isAgedBrie(item)) {
+            if (isAgedBrie(item)) {
                 updateAgedBrieQuality(item);
             } else if (isBackstagePasses(item)) {
                 updateBackstagePassesQuality(item);
+            } else if (isConjuredItem(item)) {
+                updateConjuredItemQuality(item);
+            } else if (isNormalItem(item)) {
+                updateNormalItemQuality(item);
             }
-
             updateSellIn(item);
         }
     }
@@ -38,6 +39,10 @@ public class GildedRose {
 
     private boolean isSulfuras(Item item) {
         return item.name.equals("Sulfuras, Hand of Ragnaros");
+    }
+
+    private boolean isConjuredItem(Item item) {
+        return item.name.equals("Conjured");
     }
 
     private void updateNormalItemQuality(Item item) {
@@ -67,6 +72,13 @@ public class GildedRose {
         }
     }
 
+    private void updateConjuredItemQuality(Item item) {
+        decreaseQuality(item, 2);
+        if (item.sellIn <= 0) {
+            decreaseQuality(item, 2);
+        }
+    }
+
     private void updateSellIn(Item item) {
         if (!isSulfuras(item)) {
             item.sellIn = item.sellIn - 1;
@@ -76,6 +88,12 @@ public class GildedRose {
     private void increaseQuality(Item item) {
         if (item.quality < MAX_QUALITY) {
             item.quality = item.quality + 1;
+        }
+    }
+
+    private void decreaseQuality(Item item, int decrement) {
+        for (int i = 0; i < decrement; i++) {
+            decreaseQuality(item);
         }
     }
 
