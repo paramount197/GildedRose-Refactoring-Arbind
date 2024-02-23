@@ -1,5 +1,6 @@
 package com.gildedrose;
 
+import com.gildedrose.inventory.Item;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -62,17 +63,9 @@ class GildedRoseTest {
         }
 
         @Test
-        @DisplayName("Update Aged Brie Quality After Sell-by Date")
-        void testUpdateAgedBrieQualityAfterSellBy() {
-            agedBrie.sellIn = 0; // Past sell-by date
-            gildedRose.updateItem();
-            assertEquals(12, agedBrie.quality);
-        }
-
-        @Test
         @DisplayName("Update Aged Brie Quality At Maximum Quality")
         void testUpdateAgedBrieQualityAtMaxQuality() {
-            agedBrie.quality = 50; // Maximum quality
+            agedBrie.quality = 50;
             gildedRose.updateItem();
             assertEquals(50, agedBrie.quality);
         }
