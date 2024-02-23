@@ -21,7 +21,7 @@ public class NormalItemUpdater extends ItemUpdater {
     }
 
     /**
-     * Decreases the quality of the given item, if possible.
+     * Decreases the quality of the given item.
      *
      * @param item The item whose quality to decrease.
      */
